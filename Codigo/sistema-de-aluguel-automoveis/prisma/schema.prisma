@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        Int    @id @default(autoincrement())
+  email     String @unique
+  senha     String
+  categoria String
+}
+
+model Contratante {
+  id                  Int       @id @default(autoincrement())
+  name                String
+  rg                  String    @unique
+  cpf                 String    @unique
+  profissao           String
+  entidadeEmpregadora String
+  alugueis            Aluguel[]
+}
+
+model Aluguel {
+  id             Int         @id @default(autoincrement())
+  dataInicio     DateTime
+  dataFim        DateTime
+  numeroRegistro String      @unique
+  automovelId    Int
+  automovel      Automovel   @relation(fields: [automovelId], references: [id])
+  contratanteId  Int
+  contratante    Contratante @relation(fields: [contratanteId], references: [id])
+}
+
+model Automovel {
+  id        Int       @id @default(autoincrement())
+  matricula String    @unique
+  marca     String
+  modelo    String
+  ano       Int
+  placa     String    @unique
+  alugueis  Aluguel[]
+}
