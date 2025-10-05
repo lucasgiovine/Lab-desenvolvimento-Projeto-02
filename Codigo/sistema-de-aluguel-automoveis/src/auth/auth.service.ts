@@ -7,6 +7,7 @@ import { AuthDto } from './dto/auth.dto';
 import * as argon from 'argon2';
 
 @Injectable()
+//falta testes unitarios
 export class AuthService {
     constructor(
         private prisma: PrismaService,
