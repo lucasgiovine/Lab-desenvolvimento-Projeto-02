@@ -4,9 +4,12 @@ import { AutomovelDto } from './dto/automovel.dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
+//falta testes unitarios
 export class AutomovelService {
     constructor(private prisma: PrismaService) { }
-
+/*
+Sugestão arquitetural: percebo que este controller contém acesso direto ao banco e regras de negócio. Para melhorar manutenção e testabilidade, recomendo separar em 3 camadas: Controller (receptáculo de HTTP), Service (regras de negócio) e Repository/DAO (acesso a dados).
+*/
 
     async findAutomoveisComAluguel() {
         return await this.prisma.automovel.findMany({

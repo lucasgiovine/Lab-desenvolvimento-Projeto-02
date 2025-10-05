@@ -6,7 +6,9 @@ import { AluguelDto } from './dto/aluguel.dto';
 export class AluguelController {
     constructor(private aluguelService: AluguelService) { }
 
-
+/*
+Os nomes das rotas (buscarAlugueis, cadastrarAluguel etc.) poderiam ser simplificados para seguir convenções RESTful. Isso melhora a legibilidade e integração com frontends e documentação automática (Swagger).
+*/
     @Get('buscarAlugueis')
     async findAlugueis() {
         return await this.aluguelService.findAlugueis();

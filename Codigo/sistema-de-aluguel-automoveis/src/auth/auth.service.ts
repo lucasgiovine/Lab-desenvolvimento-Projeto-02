@@ -7,6 +7,7 @@ import { AuthDto } from './dto/auth.dto';
 import * as argon from 'argon2';
 
 @Injectable()
+//falta testes unitarios
 export class AuthService {
     constructor(
         private prisma: PrismaService,
@@ -14,6 +15,10 @@ export class AuthService {
         private config: ConfigService
     ) { }
 
+    /*O método register() retorna diretamente o objeto do Prisma. Idealmente, o retorno deveria ser um DTO ou omitir campos sensíveis (senha) antes de retornar.
+    Exemplo:
+    const { senha, ...rest } = usuario; return rest;
+    */
     async register(dto: AuthDto) {
         const hash = await argon.hash(dto.senha);
         try {
@@ -28,7 +33,9 @@ export class AuthService {
         } catch (error) {
             if (error instanceof PrismaClientKnownRequestError) {
                 if (error.code === 'P2002') {
-
+                    /*
+                    As mensagens de erro invalid credentials e credentials taken poderiam ser mais claras e padronizadas. Ex: "E-mail ou senha inválidos" e "Usuário já cadastrado". Isso melhora a experiência da API.
+                    */
                     throw new ForbiddenException('credentials taken');
                 }
             }
@@ -48,6 +55,7 @@ export class AuthService {
         if (!usuario) {
             throw new ForbiddenException('invalid credentials');
         }
+        //O método argon.verify() retorna uma Promise. Está faltando o await antes da chamada em login().Sem ele, match será uma Promise e a verificação sempre passará como verdadeira.
         const match = argon.verify(usuario.senha, dto.senha);
         if (!match) {
             throw new ForbiddenException('invalid credentials');

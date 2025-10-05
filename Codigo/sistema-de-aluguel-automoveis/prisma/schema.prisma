@@ -13,6 +13,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+//Considere manter consistência de nomes (singular/plural) em todo o schema. Por exemplo, o campo alugueis em Contratante e Automovel está no plural, mas a tabela principal é singular. Avalie se todos os nomes seguem o mesmo padrão semântico.
 model Usuario {
   id        Int    @id @default(autoincrement())
   email     String @unique
@@ -20,6 +22,7 @@ model Usuario {
   categoria String
 }
 
+//Poderia haver validações adicionais, como @db.VarChar(length) para limitar o tamanho das strings (por exemplo, cpf com 11 caracteres e placa com 7 ou 8). Isso ajuda a manter a integridade de dados e evita desperdício de armazenamento.
 model Contratante {
   id                  Int       @id @default(autoincrement())
   name                String
@@ -30,6 +33,7 @@ model Contratante {
   alugueis            Aluguel[]
 }
 
+//Seria interessante adicionar validações de integridade adicionais, como @db.VarChar(length) ou constraints de check, para campos como numeroRegistro. Isso evita entradas inválidas e garante consistência de dados, especialmente para campos críticos de identificação.
 model Aluguel {
   id             Int         @id @default(autoincrement())
   dataInicio     DateTime

@@ -3,6 +3,11 @@ import { ContratanteService } from './contratante.service';
 import { get } from 'http';
 import { ContratanteDto } from './dto/contratante.dto';
 
+
+/*
+Observação de tratamento de erros: recomendo criar um middleware centralizado de erros (src/middlewares/errorHandler.ts) e garantir que todas as rotas usem next(err) ou lancem exceções tratáveis. Isso evita duplicação de try/catch nos controllers e uniformiza respostas de erro.
+*/
+
 @Controller('contratante')
 export class ContratanteController {
     constructor(private contratanteService: ContratanteService) { }

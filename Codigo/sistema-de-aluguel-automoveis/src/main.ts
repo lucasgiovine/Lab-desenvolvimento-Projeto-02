@@ -9,4 +9,7 @@ async function bootstrap() {
   }));
   await app.listen(process.env.PORT ?? 3000);
 }
+// seria bom testes end to end para as principais funcionalidades.
+
+//Faltaram testes unitários aqui. Vale incluir para garantir que as regras principais fiquem cobertas e evitar que mudanças futuras quebrem o comportamento esperado.
 bootstrap();

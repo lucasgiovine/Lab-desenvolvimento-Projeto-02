@@ -4,6 +4,7 @@ import { AluguelDto } from './dto/aluguel.dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
+//falta testes unitarios
 export class AluguelService {
     constructor(private prisma: PrismaService) { }
 
@@ -29,6 +30,10 @@ export class AluguelService {
                 },
             });
         } catch (error) {
+            /*
+            O mesmo bloco de tratamento do erro P2025 aparece em vários métodos.
+            Poderia ser extraído para um método auxiliar interno, reduzindo repetição:
+            */
             if (error instanceof PrismaClientKnownRequestError) {
                 if (error.code === 'P2025') {
                     throw new NotFoundException('Aluguel não encontrado');
